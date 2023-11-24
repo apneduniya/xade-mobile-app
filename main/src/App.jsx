@@ -485,9 +485,9 @@ function MarketInfoScreen({route, navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       {/* <TopBar navigation={navigation} headers={''} /> */}
-      <ScrollView style={{height: '100%'}}>
+{/*       <ScrollView style={{height: '100%'}}> */}
         <MarketInfo navigation={navigation} item={route.params.item} />
-      </ScrollView>
+{/*       </ScrollView> */}
       <BottomNavbar navigation={navigation} selected="Investments" />
     </SafeAreaView>
   );

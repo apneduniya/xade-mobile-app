@@ -8,8 +8,8 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import {Text, Icon} from '@rneui/themed';
-import {Slider} from 'react-native-elements';
+import { Text, Icon } from '@rneui/themed';
+import { Slider } from 'react-native-elements';
 import styles from '../investment-styles';
 // import BottomNavbar from '../../navbar';
 // import getSpotPrice from './backend/viewFunctions';
@@ -29,8 +29,10 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 import GainSvg from '../icon/gainSvg';
+import ChangeSvg from '../icon/changeSvg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Snackbar from 'react-native-snackbar';
+import LinearGradient from 'react-native-linear-gradient';
 
 function toDateTime(secs) {
   var t = new Date(secs); // Epoch
@@ -46,7 +48,7 @@ class MarketChart extends React.Component {
     console.log(this.props);
     console.log(';--------');
     this.state = {
-      item : this.props.item,
+      item: this.props.item,
       scwAddress: this.props.scwAddress,
       price: 'Updating',
       buyPrice: 'Updating',
@@ -63,6 +65,9 @@ class MarketChart extends React.Component {
       chartSelected: '365',
       coinInfo: {},
       priceChangePercentage: Number(0),
+
+      // written by Adarsh
+      section: 'news',
     };
     this.updateChart = this.updateChart.bind(this);
   }
@@ -115,12 +120,12 @@ class MarketChart extends React.Component {
             this.state.chartSelected == '1'
               ? info.market_data.price_change_percentage_24h
               : this.state.chartSelected == '14'
-              ? info.market_data.price_change_percentage_14d
-              : this.state.chartSelected == '60'
-              ? info.market_data.price_change_percentage_60d
-              : this.state.chartSelected == '180'
-              ? info.market_data.price_change_percentage_200d
-              : info.market_data.price_change_percentage_1y,
+                ? info.market_data.price_change_percentage_14d
+                : this.state.chartSelected == '60'
+                  ? info.market_data.price_change_percentage_60d
+                  : this.state.chartSelected == '180'
+                    ? info.market_data.price_change_percentage_200d
+                    : info.market_data.price_change_percentage_1y,
         });
       })
       .catch(error => {
@@ -130,47 +135,47 @@ class MarketChart extends React.Component {
 
   btcFirst = () => {
     if (this.state.status == true) {
-      this.setState({status: false});
+      this.setState({ status: false });
     } else {
-      this.setState({status: true});
+      this.setState({ status: true });
     }
   };
 
   async fetchUserDetails() {
-    try{
+    try {
       const mainnetJSON = await AsyncStorage.getItem('mainnet');
       const mainnet = JSON.parse(mainnetJSON);
       console.log('=-=======');
 
       if (global.withAuth) {
-          authAddress = global.loginAccount.publicAddress;
-          const scwAddress = global.loginAccount.scw;
-          console.log(scwAddress);
-          this.setState({
-            address: scwAddress
-          });
+        authAddress = global.loginAccount.publicAddress;
+        const scwAddress = global.loginAccount.scw;
+        console.log(scwAddress);
+        this.setState({
+          address: scwAddress
+        });
 
       } else {
-          authAddress = global.connectAccount.publicAddress;
-          const scwAddress = global.connectAccount.publicAddress;
-          this.setState({
-            address: scwAddress
-          });
+        authAddress = global.connectAccount.publicAddress;
+        const scwAddress = global.connectAccount.publicAddress;
+        this.setState({
+          address: scwAddress
+        });
       }
 
       // fetch selected coin contract address
 
-    }catch(e){
-        console.log(e);
+    } catch (e) {
+      console.log(e);
     }
   }
 
   async tradeApi() {
-    try{
+    try {
 
-      const from = (this.state.status) ? 'USD' :  this.state.item.symbol.toUpperCase();
-      const _makingAmount = (this.state.status) ? this.state.buyPrice : (this.state.buyPrice/ this.state.price);
-      const _takingAmount = (this.state.status) ? (this.state.buyPrice/ this.state.price) : this.state.buyPrice;
+      const from = (this.state.status) ? 'USD' : this.state.item.symbol.toUpperCase();
+      const _makingAmount = (this.state.status) ? this.state.buyPrice : (this.state.buyPrice / this.state.price);
+      const _takingAmount = (this.state.status) ? (this.state.buyPrice / this.state.price) : this.state.buyPrice;
 
       const makingAmount = ethers.utils.parseUnits(_makingAmount.toString(), 6);
       const takingAmount = ethers.utils.parseUnits(_takingAmount.toString(), 18);
@@ -220,13 +225,13 @@ class MarketChart extends React.Component {
           return response.text();
         } else return '';
       })
-      .then(async data => {
-        console.log(data);
-      });
+        .then(async data => {
+          console.log(data);
+        });
 
-    }catch(e) {
+    } catch (e) {
       console.log(e);
-    } 
+    }
   }
 
   componentDidMount() {
@@ -243,7 +248,7 @@ class MarketChart extends React.Component {
       return (
         <View style={styles.black}>
           <ScrollView>
-            <SafeAreaView>
+            <SafeAreaView style={{flex: 1}} >
               <View style={styles.investmentsNav}>
                 {/* <View
                   style={{
@@ -319,14 +324,14 @@ class MarketChart extends React.Component {
                   style={
                     // this.state.btnSelected == 'long' ||
                     // this.state.btnSelected == 'short'
-                      // ? {display: 'none'}
-                      // : 
-                      styles.longshortContainer
+                    // ? {display: 'none'}
+                    // : 
+                    styles.longshortContainer
                   }>
                   <View style={styles.coinChart}>
                     <View style={styles.marketInfo}>
                       <View style={styles.stockName}>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{ flexDirection: 'row' }}>
                           <Text style={styles.stockHead}>{this.state.item.name}</Text>
                         </View>
                       </View>
@@ -366,7 +371,7 @@ class MarketChart extends React.Component {
 
                       </View> */}
                         <View
-                          style={{flexDirection: 'row', alignItems: 'flex-end', marginLeft:'5%'}}>
+                          style={{ flexDirection: 'row', alignItems: 'flex-end', marginLeft: '5%' }}>
                           <Icon
                             name={
                               this.state.priceChangePercentage > 0
@@ -390,7 +395,7 @@ class MarketChart extends React.Component {
                               fontFamily: `Sarala-Regular`,
                               fontSize: 16,
                               marginLeft: '1%',
-                              alignItems:'center'
+                              alignItems: 'center'
                             }}>
                             {this.state.priceChangePercentage.toFixed(2)}% (24h)
                           </Text>
@@ -587,9 +592,9 @@ class MarketChart extends React.Component {
                 style={
                   // this.state.btnSelected == 'long' ||
                   // this.state.btnSelected == 'short'
-                    // ? 
-                    styles.longshortContainer
-                    // : {display: 'none'}
+                  // ? 
+                  styles.longshortContainer
+                  // : {display: 'none'}
                 }>
                 {/* <View style={styles.priceSlippage}>
                   <View style={styles.price}>
@@ -618,7 +623,7 @@ class MarketChart extends React.Component {
                     </View>
                   </View>
                 </View> */}
-                <View style={styles.btcUsd}>
+                { /* <View style={styles.btcUsd}>
                   <View style={styles.btc}>
                     <View style={styles.subContents}>
                       <Text style={styles.subBtc}>You Sell</Text>
@@ -748,7 +753,7 @@ class MarketChart extends React.Component {
                       )}
                     </View>
                   </View>
-                </View>
+                            </View> */}
                 {/* <View style={styles.leverage}>
                   <View
                     style={{
@@ -832,26 +837,142 @@ class MarketChart extends React.Component {
                     <Text style={styles.orderAmount}>$0</Text>
                   </View>
                 </View> */}
+                <TouchableOpacity
+                    style={{
+                          paddingHorizontal: '5%',
+                          marginTop: '8%',
+                          width: "100%",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between"
+                    }}
+                >
+                    <View>
+                        <Text
+                            style={{
+                              color: "#747474",
+                              fontFamily: 'Sarala'
+                            }}
+                        >
+                            Amount owned
+                        </Text>
+                        <Text
+                            style={{
+                                color: '#F0F0F0',
+                                fontSize: 28,
+                                fontFamily: `Sarala-Bold`,
+                                marginTop: '1%'
+                            }}
+                        >
+                            $1568.00
+                        </Text>
+                        <Text
+                            style={{
+                              color: "#8C63BF",
+                              fontWeight: "bold",
+                              fontFamily: 'Sarala-Bold'
+                            }}
+                        >
+                            18.510 AAVE
+                        </Text>
+                    </View>
+                    <ChangeSvg />
+                </TouchableOpacity>
 
+              <View
+                  style={{
+                      height: 50,
+                      marginHorizontal: '5%',
+                      marginTop: '8%',
+                      justifyContent: 'space-evenly',
+                      flexDirection: 'row',
+                      borderRadius: 6,
+                  }}
+              >
+                  <TouchableOpacity
+                      style={{
+                          flexDirection: 'row',
+                          height: '100%',
+                          width: '100%',
+                          borderRadius: 6,
+                      }}
+                      onPress={() => {
+
+                      }}>
+                      <LinearGradient useAngle={true} angle={150} colors={['#5038E1','#B961FF']} style={{ width: "100%", borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+                              <Text style={{color: '#fff', fontSize: 14, fontFamily: 'Sarala-Bold', fontWeight: "bold"}}>
+                                  Trade
+                              </Text>
+                      </LinearGradient>
+                  </TouchableOpacity>
+              </View>
+
+                <View style={{ flexDirection: 'row', height: 50, borderRadius: 10, backgroundColor: '#1C1B20', alignItems: 'center', justifyContent: 'space-between', padding: 4, marginVertical: 24, marginHorizontal: "5%" }}>
+                  <TouchableOpacity style={this.state.section === 'news' ? { padding: 9, paddingHorizontal: 30, fontWeight: 'bold', backgroundColor: '#5B5A60', borderRadius: 10, color: '#FAF9FC', fontSize: 0.85, cursor: 'pointer' } : { color: '#ADADAF', fontWeight: 'bold', fontSize: 0.85, padding: 12, paddingHorizontal: 30, cursor: 'pointer' }} onPress={() => this.setState({ section: 'news' })}>
+                    <Text style={{color: "#FFFFFF"}}>News</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={this.state.section === 'analytics' ? { padding: 9, paddingHorizontal: 30, fontWeight: 'bold', backgroundColor: '#5B5A60', borderRadius: 10, color: '#FAF9FC', fontSize: 0.85, cursor: 'pointer' } : { color: '#ADADAF', fontWeight: 'bold', fontSize: 0.85, padding: 12, paddingHorizontal: 30, cursor: 'pointer' }} onPress={() => this.setState({ section: 'analytics' })}>
+                    <Text style={{color: "#FFFFFF"}}>Analytics</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={this.state.section === 'about' ? { padding: 9, paddingHorizontal: 30, fontWeight: 'bold', backgroundColor: '#5B5A60', borderRadius: 10, color: '#FAF9FC', fontSize: 0.85, cursor: 'pointer' } : { color: '#ADADAF', fontWeight: 'bold', fontSize: 0.85, padding: 12, paddingHorizontal: 30, cursor: 'pointer' }} onPress={() => this.setState({ section: 'about' })}>
+                    <Text style={{color: "#FFFFFF"}}>About</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={{ paddingHorizontal: "5%" }}>
+                    {
+                        this.state.section === 'news' ?
+                            [1, 2, 3, 4, 5].map((data, index) => {
+                                return (
+                                    <View key={index} style={{ marginBottom: 50, alignItems: 'flex-start', gap: 10 }}>
+                                        <View style={{ flexDirection: 'row', gap: 5, color: 'gray', alignItems: 'center' }}>
+                                            {/* Avatars - Uncomment and replace with your avatar components */}
+                                            {/* <View style={{ flexDirection: 'row', gap: 5 }}>
+                                                <Image source={{ uri: 'https://randomuser.me/api/portraits/women/65.jpg' }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                                <Image source={{ uri: 'https://randomuser.me/api/portraits/men/25.jpg' }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                                <Image source={{ uri: 'https://randomuser.me/api/portraits/women/25.jpg' }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                                <Image source={{ uri: 'https://randomuser.me/api/portraits/men/55.jpg' }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                                <Image source={{ uri: 'https://via.placeholder.com/300/09f/fff.png' }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                            </View> */}
+                                            <Text style={{ fontSize: 13, color: 'gray' }}>17:05</Text>
+                                            <Text style={{ marginHorizontal: 5, color: 'gray' }}>·</Text>
+                                            <Text style={{ fontSize: 13, color: 'gray' }}>24 Oct</Text>
+                                            <Text style={{ marginHorizontal: 5, color: 'gray' }}>·</Text>
+                                            <Text style={{ fontSize: 13, color: 'gray' }}>Reuters</Text>
+                                        </View>
+                                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#D1D2D9', textAlign: 'justify' }}>
+                                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+                                        </Text>
+                                    </View>
+                                );
+                            })
+                           :
+                           null
+                    }
+                </View>
+
+{/*
                 <View style={{
-                  flex:1,
+                  flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  marginTop:20
+                  marginTop: 20
                 }}>
-                  <TouchableOpacity 
-                    onPress={() => 
-                      Snackbar.show({'text' : 'Coming soon'})
+                  <TouchableOpacity
+                    onPress={() =>
+                      Snackbar.show({ 'text': 'Coming soon' })
                       // this.tradeApi()
-                    
+
                     }
-                  style={{
-                    borderRadius: 6,
-                    backgroundColor: '#5038E1',
-                    paddingHorizontal:50,
-                    paddingVertical:10,
-                    
-                  }}>
+                    style={{
+                      borderRadius: 6,
+                      backgroundColor: '#5038E1',
+                      paddingHorizontal: 50,
+                      paddingVertical: 10,
+
+                    }}>
                     <Text style={{
                       color: '#fff',
                       fontFamily: 'Sarala-Bold',
@@ -859,10 +980,10 @@ class MarketChart extends React.Component {
                     }}>Continue</Text>
                   </TouchableOpacity>
                 </View>
+*/}
               </View>
             </SafeAreaView>
           </ScrollView>
-          
         </View>
       );
     } catch (err) {
