@@ -17,6 +17,7 @@ import styles from '../investment-styles';
 // import FastImage from 'react-native-fast-image';
 import BTC from '../data_old.json';
 import { ethers } from 'ethers';
+import TradePage from '../trade/tradePage';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -897,7 +898,8 @@ class MarketChart extends React.Component {
                           borderRadius: 6,
                       }}
                       onPress={() => {
-
+//                         this.props.navigation.navigate('TradePage');
+                            <TradePage navigation={this.props.navigation} />
                       }}>
                       <LinearGradient useAngle={true} angle={150} colors={['#5038E1','#B961FF']} style={{ width: "100%", borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
                               <Text style={{color: '#fff', fontSize: 14, fontFamily: 'Sarala-Bold', fontWeight: "bold"}}>

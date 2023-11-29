@@ -76,6 +76,7 @@ import CardInfo from './screens/loggedIn/card/info/cardInfo';
 import Withdraw from './screens/loggedIn/savings/withdraw/withdraw';
 import Deposit from './screens/loggedIn/savings/deposit/deposit';
 import Trade from './screens/loggedIn/investments/trade';
+import TradePage from './screens/loggedIn/investments/trade/tradePage';
 import MarketInfo from './screens/loggedIn/investments/marketInfo';
 
 function PreLaunchLoad({navigation}) {
@@ -493,6 +494,18 @@ function MarketInfoScreen({route, navigation}) {
   );
 }
 
+function TradePageScreen({navigation}) {
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* <TopBar navigation={navigation} headers={'Bank Account'} /> */}
+      <ScrollView style={{height: '100%'}}>
+        <TradePage navigation={navigation} />
+      </ScrollView>
+      <BottomNavbar navigation={navigation} selected="Investments" />
+    </SafeAreaView>
+  );
+}
+
 function CreateBankAccount({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
@@ -813,6 +826,12 @@ export default function App({navigation}) {
         <Stack.Screen
           name="Trade"
           component={TradeScreen}
+          navigation={navigation}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TradePage"
+          component={TradePageScreen}
           navigation={navigation}
           options={{headerShown: false}}
         />
