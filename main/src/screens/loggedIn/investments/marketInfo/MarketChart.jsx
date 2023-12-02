@@ -7,6 +7,7 @@ import {
   TextInput,
   Dimensions,
   StyleSheet,
+  Linking
 } from 'react-native';
 import { Text, Icon } from '@rneui/themed';
 import { Slider } from 'react-native-elements';
@@ -951,7 +952,249 @@ class MarketChart extends React.Component {
                                 );
                             })
                            :
-                           null
+                               this.state.section === 'about' ?
+                                       <View
+                                         style={{
+                                           width: '100%',
+                                           flexDirection: 'column',
+//                                            paddingHorizontal: 20,
+//                                            paddingVertical: 12,
+                                         }}
+                                       >
+                                         <Text
+                                           style={{
+                                             color: '#ffffff',
+                                             fontSize: 16,
+                                             fontWeight: 'bold',
+                                             letterSpacing: 0.1,
+                                           }}
+                                         >
+                                           About
+                                         </Text>
+                                         {/* ReadMoreLess component with inline styling */}
+                                         <ReadMoreLess
+                                            text="Bitcoin is a decentralized cryptocurrency originally described in a 2008 whitepaper by a person, or group of people, using the alias Satoshi Nakamoto. It was launched soon after, in January 2009. Bitcoin is a peer-to-peer online currency, meaning that all transactions happen directly between equal, independent network participants, without the need for any intermediary to permit or facilitate them. Bitcoin was created, according to Nakamoto’s own words, to allow “online payments to be sent directly from one party to another without going through a financial institution.” Some concepts for a similar type of a decentralized electronic currency precede BTC, but Bitcoin holds the distinction of being the first-ever cryptocurrency to come into actual use."
+                                            maxChars={300}
+                                          />
+                                         <View
+                                           style={{
+                                             width: '100%',
+                                             flexDirection: 'row',
+                                             justifyContent: 'space-between',
+                                             marginTop: 15,
+                                           }}
+                                         >
+                                           <Text
+                                             style={{
+                                               color: '#82828f',
+                                               textAlign: 'center',
+                                               borderBottomWidth: 0.5,
+                                               borderBottomColor: '#82828f',
+                                               fontSize: 12,
+                                             }}
+                                           >
+                                             Token address
+                                           </Text>
+                                           <Text
+                                             style={{
+                                               fontWeight: 'bold',
+                                               textAlign: 'center',
+                                               fontSize: 11,
+                                               color: "white"
+                                             }}
+                                           >
+                                             0x0000...1010
+                                           </Text>
+                                         </View>
+                                         <View
+                                           style={{
+                                             height: 1,
+                                             width: '100%',
+                                             backgroundColor: '#282A2F',
+                                             marginVertical: 12,
+                                           }}
+                                         ></View>
+                                         <Text
+                                           style={{
+                                             color: '#ffffff',
+                                             fontSize: 16,
+                                             fontWeight: 'bold',
+                                             letterSpacing: 0.1,
+                                           }}
+                                         >
+                                           Market Stats
+                                         </Text>
+                                         <View style={{ width: '100%', flexDirection: 'column' }}>
+                                               {/* Market Cap */}
+                                               <View
+                                                 style={{
+                                                   width: '100%',
+                                                   flexDirection: 'row',
+                                                   justifyContent: 'space-between',
+                                                   marginTop: 10,
+                                                 }}
+                                               >
+                                                 <Text
+                                                   style={{
+                                                     color: '#82828f',
+                                                     textAlign: 'center',
+                                                     borderBottomWidth: 0.5,
+                                                     borderBottomColor: '#82828f',
+                                                     fontSize: 14,
+                                                   }}
+                                                 >
+                                                   Market Cap
+                                                 </Text>
+                                                 <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
+                                                   $4,842,278,239.00
+                                                 </Text>
+                                               </View>
+
+                                               {/* All Time High */}
+                                               <View
+                                                 style={{
+                                                   width: '100%',
+                                                   flexDirection: 'row',
+                                                   justifyContent: 'space-between',
+                                                 }}
+                                               >
+                                                 <Text
+                                                   style={{
+                                                     color: '#82828f',
+                                                     textAlign: 'center',
+                                                     borderBottomWidth: 0.5,
+                                                     borderBottomColor: '#82828f',
+                                                     fontSize: 14,
+                                                   }}
+                                                 >
+                                                   All Time High
+                                                 </Text>
+                                                 <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
+                                                   $2.92
+                                                 </Text>
+                                               </View>
+
+                                               {/* All Time Low */}
+                                               <View
+                                                 style={{
+                                                   width: '100%',
+                                                   flexDirection: 'row',
+                                                   justifyContent: 'space-between',
+                                                 }}
+                                               >
+                                                 <Text
+                                                   style={{
+                                                     color: '#82828f',
+                                                     textAlign: 'center',
+                                                     borderBottomWidth: 0.5,
+                                                     borderBottomColor: '#82828f',
+                                                     fontSize: 14,
+                                                   }}
+                                                 >
+                                                   All Time Low
+                                                 </Text>
+                                                 <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
+                                                   $0.00
+                                                 </Text>
+                                               </View>
+
+                                               {/* Fully Diluted Value */}
+                                               <View
+                                                 style={{
+                                                   width: '100%',
+                                                   flexDirection: 'row',
+                                                   justifyContent: 'space-between',
+                                                 }}
+                                               >
+                                                 <Text
+                                                   style={{
+                                                     color: '#82828f',
+                                                     textAlign: 'center',
+                                                     borderBottomWidth: 0.5,
+                                                     borderBottomColor: '#82828f',
+                                                     fontSize: 14,
+                                                   }}
+                                                 >
+                                                   Fully Diluted Value
+                                                 </Text>
+                                                 <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
+                                                   $5,206,861,073.00
+                                                 </Text>
+                                               </View>
+
+                                               {/* Total Volume Locked */}
+                                               <View
+                                                 style={{
+                                                   width: '100%',
+                                                   flexDirection: 'row',
+                                                   justifyContent: 'space-between',
+                                                 }}
+                                               >
+                                                 <Text
+                                                   style={{
+                                                     color: '#82828f',
+                                                     textAlign: 'center',
+                                                     borderBottomWidth: 0.5,
+                                                     borderBottomColor: '#82828f',
+                                                     fontSize: 14,
+                                                   }}
+                                                 >
+                                                   Total Volume Locked
+                                                 </Text>
+                                                 <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
+                                                   $185,038,398.00
+                                                 </Text>
+                                               </View>
+                                             </View>
+                                         <View
+                                           style={{
+                                             height: 1,
+                                             width: '100%',
+                                             backgroundColor: '#282A2F',
+                                             marginVertical: 12,
+                                           }}
+                                         ></View>
+                                         <Text
+                                           style={{
+                                             color: '#ffffff',
+                                             fontSize: 16,
+                                             fontWeight: 'bold',
+                                             letterSpacing: 0.1,
+                                             marginBottom: 5,
+                                           }}
+                                         >
+                                           Resources
+                                         </Text>
+                                         <Text
+                                           style={{
+                                             color: '#4F9CD9',
+                                             fontSize: 14,
+                                             textDecorationLine: 'underline',
+                                             marginBottom: 5,
+                                           }}
+                                           onPress={() => Linking.openURL('https://bitcoin.org/')}
+                                         >
+                                           https://bitcoin.org/
+                                         </Text>
+                                         <Text
+                                           style={{
+                                             color: '#4F9CD9',
+                                             fontSize: 14,
+                                             textDecorationLine: 'underline',
+                                             marginBottom: 5,
+                                           }}
+                                           onPress={() => Linking.openURL('https://blog.bitcoin.com/')}
+                                         >
+                                           https://blog.bitcoin.com/
+                                         </Text>
+                                       </View>
+
+                               :
+                                   <View style={{ marginBottom: 50, alignItems: 'flex-start', gap: 10 }}>
+                                       <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#D1D2D9', textAlign: 'justify' }}>
+                                            Analytics
+                                       </Text>
+                                   </View>
                     }
                 </View>
 
@@ -993,5 +1236,23 @@ class MarketChart extends React.Component {
     }
   }
 }
+
+const ReadMoreLess = ({ text, maxChars }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const displayText = isExpanded ? text : `${text.slice(0, maxChars)}`;
+
+  return (
+    <View>
+      <Text style={{ margin: 0, marginTop: 10, marginBottom: 8, color: "white" }}>{displayText}</Text>
+      {text.length > maxChars && (
+        <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)}>
+          <Text style={{ color: '#4F9CD9', fontWeight: 'bold', fontSize: 12, cursor: 'pointer' }}>
+            {isExpanded ? 'Read Less' : 'Read More'}
+          </Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+};
 
 export default MarketChart;
