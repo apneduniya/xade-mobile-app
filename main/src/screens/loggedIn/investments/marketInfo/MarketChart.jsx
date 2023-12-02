@@ -69,6 +69,8 @@ class MarketChart extends React.Component {
       priceChangePercentage: Number(0),
 
       // written by Adarsh
+      about: 'Loading...',
+      fully_diluted_valuation: 'Updating',
       section: 'news',
     };
     this.updateChart = this.updateChart.bind(this);
@@ -110,6 +112,7 @@ class MarketChart extends React.Component {
     await fetch(btcInfoUrl)
       .then(response => response.json())
       .then(info => {
+        console.log("INFO_RESPONSE", info, "INFO_RESPONSE");
         this.setState({
           marketCap: info.market_data.market_cap.usd,
           totalVolume: info.market_data.total_volume.usd,
@@ -117,6 +120,8 @@ class MarketChart extends React.Component {
           allTimeLow: info.market_data.atl.usd,
           price: info.market_data.current_price.usd.toFixed(3).toString(),
           buyPrice: info.market_data.current_price.usd.toFixed(3).toString(),
+          fully_diluted_valuation: info.market_data.fully_diluted_valuation.usd,
+          about: info.description.en,
           nBtc: 1.0,
           priceChangePercentage:
             this.state.chartSelected == '1'
@@ -236,9 +241,38 @@ class MarketChart extends React.Component {
     }
   }
 
+  async about () {
+
+//     const marketStatsURL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.state.item.id.toLowerCase()}&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en`;
+       const marketStatsURL = `https://api.coingecko.com/api/v3/coins/${this.state.item.id.toLowerCase()}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`;
+
+    await fetch(marketStatsURL, headers={
+        "x-cg-demo-api-key": "CG-vwTDdcvqR2QNrytke2e4WKVR"
+      })
+      .then(response => response.json())
+      .then(info => {
+        console.log(info, "info");
+        try{
+            if (info.status.error_code == 429) {
+              return;
+            }
+        }catch(e){
+            console.log(e);
+        }
+        this.setState({
+          coinMarketStats: info[0],
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+  }
+
   componentDidMount() {
     this.updateChart('1');
     this.fetchUserDetails();
+//     this.about();
     // console.log(BTC.image.large);
     // console.log(getSpotPrice('BTC'));
     // console.log(BTC.prices.map(price => toDateTime(Number(price[0]))));
@@ -973,7 +1007,7 @@ class MarketChart extends React.Component {
                                          </Text>
                                          {/* ReadMoreLess component with inline styling */}
                                          <ReadMoreLess
-                                            text="Bitcoin is a decentralized cryptocurrency originally described in a 2008 whitepaper by a person, or group of people, using the alias Satoshi Nakamoto. It was launched soon after, in January 2009. Bitcoin is a peer-to-peer online currency, meaning that all transactions happen directly between equal, independent network participants, without the need for any intermediary to permit or facilitate them. Bitcoin was created, according to Nakamoto’s own words, to allow “online payments to be sent directly from one party to another without going through a financial institution.” Some concepts for a similar type of a decentralized electronic currency precede BTC, but Bitcoin holds the distinction of being the first-ever cryptocurrency to come into actual use."
+                                            text={this.state.about}
                                             maxChars={300}
                                           />
                                          <View
@@ -1046,7 +1080,7 @@ class MarketChart extends React.Component {
                                                    Market Cap
                                                  </Text>
                                                  <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
-                                                   $4,842,278,239.00
+                                                    $ {this.state.marketCap}
                                                  </Text>
                                                </View>
 
@@ -1070,7 +1104,7 @@ class MarketChart extends React.Component {
                                                    All Time High
                                                  </Text>
                                                  <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
-                                                   $2.92
+                                                    $ {this.state.allTimeHigh}
                                                  </Text>
                                                </View>
 
@@ -1094,7 +1128,7 @@ class MarketChart extends React.Component {
                                                    All Time Low
                                                  </Text>
                                                  <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
-                                                   $0.00
+                                                   $ {this.state.allTimeLow}
                                                  </Text>
                                                </View>
 
@@ -1118,7 +1152,7 @@ class MarketChart extends React.Component {
                                                    Fully Diluted Value
                                                  </Text>
                                                  <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
-                                                   $5,206,861,073.00
+                                                    $ {this.state.fully_diluted_valuation}
                                                  </Text>
                                                </View>
 
@@ -1142,7 +1176,7 @@ class MarketChart extends React.Component {
                                                    Total Volume Locked
                                                  </Text>
                                                  <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 13, color: "white" }}>
-                                                   $185,038,398.00
+                                                    $ {this.state.totalVolume}
                                                  </Text>
                                                </View>
                                              </View>

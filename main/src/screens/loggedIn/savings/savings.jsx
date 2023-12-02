@@ -117,7 +117,7 @@ const Savings = ({navigation}) => {
         // setBalance(balance);
 
         fetch(
-          `https://api-testnet.polygonscan.com/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${authAddress}&apikey=${POLYGON_API_KEY}`,
+          "https://api-testnet.polygonscan.com/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${authAddress}&apikey=${POLYGON_API_KEY}"
         )
           .then(response => response.json())
           .then(data => {
@@ -207,7 +207,7 @@ const Savings = ({navigation}) => {
     const decimals = 6;
 
     console.log(123);
-    
+
     const amount = ethers.utils.parseUnits(_amount, decimals);
 
     const isAuth = true;
@@ -221,7 +221,7 @@ const Savings = ({navigation}) => {
     //   console.log('Global Account:', global.connectAccount);
     //   console.log('Global Wallet Type:', global.walletType);
     //   web3 = this.createConnectProvider();
-    // }  
+    // }
 
     console.log(authAddress);
     const mainnetJSON = await AsyncStorage.getItem('mainnet');
@@ -233,39 +233,39 @@ const Savings = ({navigation}) => {
 
     if (global.withAuth) {
       console.log('Calculating Gas In USDC...');
-  
+
       const contractGas = Number('90000');
       const approvalGas = Number('60000');
       const gasPrice = await web3.eth.getGasPrice();
       const gas = (contractGas + approvalGas) * gasPrice;
       const gasUSDC = Number(String(gas).substring(0, 5) * 1.15).toFixed(0);
       const totalAmount = Number(amount) + Number(gasUSDC);
-  
+
       console.log('Total Gas:', web3.utils.fromWei(String(gas), 'ether'));
       console.log(
         'Total Gas In USDC:',
         web3.utils.fromWei(String(gasUSDC), 'mwei'),
       );
       console.log('Total Amount:', totalAmount);
-  
+
       const usdcAbi = new ethers.utils.Interface(usdAbi);
       const contractAbi = new ethers.utils.Interface(abi);
 
       let txs = [];
-  
+
       console.log('Creating Transactions...');
-  
+
       try {
         const approveData = usdcAbi.encodeFunctionData('approve', [
           lendingPoolAddress,
           totalAmount,
         ]);
-  
+
         const approveTX = {
           to: usdcAddress,
           data: approveData,
         };
-  
+
         txs.push(approveTX);
 
         const sma = await global.smartAccount.getSmartAccountAddress()
@@ -277,7 +277,7 @@ const Savings = ({navigation}) => {
           sma,
           0
         ]);
-  
+
         const sendTX = {
           to: lendingPoolAddress,
           data: sendData,
@@ -286,9 +286,9 @@ const Savings = ({navigation}) => {
         txs.push(sendTX);
 
         console.log(txs);
-  
+
         console.log('Created Transactions Successfully...');
-  
+
         console.log('Waiting For Approval...');
 
         const userOp = await global.smartAccount.buildUserOp(txs)
@@ -313,19 +313,19 @@ const Savings = ({navigation}) => {
         );
 
         console.log(paymasterAndDataResponse);
-            
+
         userOp.paymasterAndData = paymasterAndDataResponse.paymasterAndData;
 
         // userOp.paymasterAndData = "0x"
 
         console.log(userOp);
-      
+
         const userOpResponse = await global.smartAccount.sendUserOp(userOp);
 
         console.log(userOpResponse);
-      
+
         const transactionDetail = await userOpResponse.wait()
-      
+
         console.log("transaction detail below")
         console.log(transactionDetail)
 
@@ -351,24 +351,24 @@ const Savings = ({navigation}) => {
         // );
 
         // console.log(paymasterAndDataResponse1);
-            
+
         // userOp1.paymasterAndData = paymasterAndDataResponse1.paymasterAndData;
 
         // // userOp.paymasterAndData = "0x"
 
         // console.log(userOp1);
-      
+
         // const userOpResponse1 = await global.smartAccount.sendUserOp(userOp1);
 
         // console.log(userOpResponse1);
-      
+
         // const transactionDetail1 = await userOpResponse1.wait()
-      
+
         // console.log("transaction detail below")
-        // console.log(transactionDetail1)        
-  
+        // console.log(transactionDetail1)
+
         console.log('Approved!');
-  
+
       } catch (e) {
         console.error(e);
 
@@ -394,7 +394,7 @@ const Savings = ({navigation}) => {
               style={{
                 color: '#6D797D',
                 fontSize: 45,
-                fontFamily: 'Sarala-Regular',
+                fontFamily: 'Benzin-Medium',
               }}>
               $
             </Text>
@@ -402,7 +402,7 @@ const Savings = ({navigation}) => {
               style={{
                 color: 'white',
                 fontSize: 45,
-                fontFamily: 'Sarala-Regular',
+                fontFamily: 'Benzin-Medium',
               }}>
                 {/* {balance} */}
               {balance && balance.split('.')[0]}
@@ -411,7 +411,7 @@ const Savings = ({navigation}) => {
               style={{
                 color: '#6D797D',
                 fontSize: 30,
-                fontFamily: 'Sarala-Regular',
+                fontFamily: 'Benzin-Medium',
                 marginBottom: 5,
               }}>
               {'.'}
@@ -495,7 +495,7 @@ const Savings = ({navigation}) => {
           style={{
             flexDirection: 'row',
             width: '90%',
-            height: 232,
+
             justifyContent: 'space-around',
             marginTop: '10%',
           }}>
@@ -508,7 +508,7 @@ const Savings = ({navigation}) => {
               style={styles.innerDep2}>
               {/* <Image source={require('./img/dollar-dollar-color.png')} /> */}
               <FastImage
-                style={{width: '100%', height: 170}}
+                style={{width: '100%', height: 170, marginBottom:'-20%'}}
                 source={require('./img/dollar-dollar-color.png')}
               />
               <Text style={styles.amountText}>$0.00</Text>
@@ -524,12 +524,12 @@ const Savings = ({navigation}) => {
               angleCenter={{x: 0.5, y: 0.5}}
               style={styles.innerDep2}>
               <FastImage
-                style={{width: '100%', height: 170}}
+                style={{width: '100%', height: 170,marginBottom:'-20%'}}
                 source={require('./img/chart-dynamics.png')}
               />
-              <Text style={styles.amountText}>0%</Text>
+              <Text style={styles.amountText}>5%</Text>
               <Text style={styles.amountText2}>
-                APY on {month} {date}
+               Savings Rate today
               </Text>
             </LinearGradient>
           </TouchableOpacity>

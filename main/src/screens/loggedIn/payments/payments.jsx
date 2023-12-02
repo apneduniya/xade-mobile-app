@@ -145,7 +145,7 @@ const PaymentsComponent = ({navigation}) => {
         height: '100%',
         alignSelf: 'flex-start'
       }}>
-    
+
       <View style={{
         marginHorizontal:20,
         marginTop: 16
@@ -178,6 +178,7 @@ const PaymentsComponent = ({navigation}) => {
                 fontWeight: 300,
                 marginTop: '1%',
               }}>
+                $
               { balance && balance.split('.')[0] }
               <Text
                 style={{
@@ -209,7 +210,7 @@ const PaymentsComponent = ({navigation}) => {
             style={{
               width: 52,
               height: 52,
-              // borderRadius: 10, 
+              // borderRadius: 10,
               // margin: 5
             }}
           />
@@ -227,7 +228,7 @@ const PaymentsComponent = ({navigation}) => {
             marginHorizontal:10
           }}>
 
-            
+
           <TouchableOpacity
             style={styles.depWith}
             onPress={() => {
@@ -247,7 +248,7 @@ const PaymentsComponent = ({navigation}) => {
             }}>
             <View
               style={[styles.innerDep, styles.innerDepColored]}>
-                
+
                   <Icon
                     // style={styles.tup}
                     name={'arrow-down-circle'}
@@ -313,7 +314,7 @@ const PaymentsComponent = ({navigation}) => {
               fontWeight: 300,
               marginLeft: '4%',
             }}>
-            Transactions 
+            Transactions
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -373,7 +374,7 @@ const PaymentsComponent = ({navigation}) => {
                       <Text
                         style={{
                           color: '#e9e9e9',
-                          fontFamily: `Sarala-Bold`,
+                          fontFamily: "Sarala-Bold",
                           fontSize: 16,
                           fontWeight: 300,
                         }}>
@@ -395,7 +396,7 @@ const PaymentsComponent = ({navigation}) => {
                         color: '#a1a1a1',
                         fontSize: 14,
                         fontWeight: 400,
-                        fontFamily: `Sarala-Regular`,
+                        fontFamily: "Sarala-Regular",
                       }}>
                       {json.date}, {json.time}
                     </Text>
@@ -408,7 +409,7 @@ const PaymentsComponent = ({navigation}) => {
                       color: json.truth ? '#fff' : '#fff',
                       fontSize: 16,
                       fontWeight:300,
-                      fontFamily: `Sarala-Bold`,
+                      fontFamily: "Sarala-Bold",
                       alignItems:'flex-end',
                       alignSelf:'flex-end',
                       textAlign: 'right'

@@ -240,13 +240,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#85969A',
     marginTop: '2%',
+    paddingBottom: '5%'
   },
 
   noTransaction: {
     color: '#d9d9d9',
     marginTop: '7%',
     textAlign: 'center',
-    fontFamily: `EuclidCircularA-Medium`,
+    fontFamily: "EuclidCircularA-Medium",
     fontSize: 15,
   },
 });
