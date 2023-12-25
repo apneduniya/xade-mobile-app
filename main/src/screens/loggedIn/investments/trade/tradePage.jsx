@@ -44,7 +44,7 @@ class TradePage extends Component {
         <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
             {/* Your SVG component goes here */}
-            <Text style={{ fontSize: '1.05em', fontWeight: 'bold' }}>Trade</Text>
+            <Text style={{ fontSize: 16.8, fontWeight: 'bold' }}>Trade</Text>
           </View>
           <TouchableOpacity
             style={{ position: 'relative' }}
@@ -62,7 +62,7 @@ class TradePage extends Component {
                 justifyContent: 'center',
               }}
             >
-              <Text style={{ fontSize: '1em', fontWeight: 'bold' }}>{selectedDropDownValue}</Text>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{selectedDropDownValue}</Text>
               {/* Your SVG component goes here */}
             </View>
             {isDropDownOpen && (
@@ -115,10 +115,10 @@ class TradePage extends Component {
                     background: 'linear-gradient(94deg, #183E27 -3.78%, #1D5433 112.05%)',
                     borderRadius: '100px',
                     color: '#ACFF8E',
-                    fontSize: '1em',
+                    fontSize: 16,
                     cursor: 'pointer',
                   }
-                : { color: '#848484', fontWeight: 'bold', fontSize: '1em', padding: '12px 70px', cursor: 'pointer' }
+                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 70px', cursor: 'pointer' }
             }
             onPress={() => this.setState({ tradeType: 'buy' })}
           >
@@ -133,10 +133,10 @@ class TradePage extends Component {
                     background: 'linear-gradient(94deg, #183E27 -3.78%, #1D5433 112.05%)',
                     borderRadius: '100px',
                     color: '#ACFF8E',
-                    fontSize: '1em',
+                    fontSize: 16,
                     cursor: 'pointer',
                   }
-                : { color: '#848484', fontWeight: 'bold', fontSize: '1em', padding: '12px 70px', cursor: 'pointer' }
+                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 70px', cursor: 'pointer' }
             }
             onPress={() => this.setState({ tradeType: 'sell' })}
           >
@@ -165,10 +165,10 @@ class TradePage extends Component {
                     background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
                     borderRadius: '100px',
                     color: '#FFFFFF',
-                    fontSize: '1em',
+                    fontSize: 16,
                     cursor: 'pointer',
                   }
-                : { color: '#848484', fontWeight: 'bold', fontSize: '1em', padding: '12px 30px', cursor: 'pointer' }
+                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
             }
             onPress={() => this.setState({ orderType: 'market' })}
           >
@@ -183,10 +183,10 @@ class TradePage extends Component {
                     background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
                     borderRadius: '100px',
                     color: '#FFFFFF',
-                    fontSize: '1em',
+                    fontSize: 16,
                     cursor: 'pointer',
                   }
-                : { color: '#848484', fontWeight: 'bold', fontSize: '1em', padding: '12px 30px', cursor: 'pointer' }
+                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
             }
             onPress={() => this.setState({ orderType: 'limit' })}
           >
@@ -201,10 +201,10 @@ class TradePage extends Component {
                     background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
                     borderRadius: '100px',
                     color: '#FFFFFF',
-                    fontSize: '1em',
+                    fontSize: 16,
                     cursor: 'pointer',
                   }
-                : { color: '#848484', fontWeight: 'bold', fontSize: '1em', padding: '12px 30px', cursor: 'pointer' }
+                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
             }
             onPress={() => this.setState({ orderType: 'stop' })}
           >
@@ -213,20 +213,20 @@ class TradePage extends Component {
         </View>
         {/* How much? */}
         <View style={{ marginTop: 45, flexDirection: 'column', alignItems: 'center' }}>
-          <Text style={{ color: '#7E7E7E', fontSize: '1em' }}>How much would you like to invest?</Text>
+          <Text style={{ color: '#7E7E7E', fontSize: 16 }}>How much would you like to invest?</Text>
           <View style={{ marginTop: 48, flexDirection: 'row', gap: 10, alignItems: 'center', width: '100%' }}>
             <TextInput
               keyboardType="numeric"
               value={value.toString()}
               onChangeText={(text) => this.setState({ value: text })}
-              style={{ backgroundColor: 'transparent', color: '#ffffff', fontSize: '3.5em', width: '50%', textAlign: 'right', outline: 'none' }}
+              style={{ backgroundColor: 'transparent', color: '#ffffff', fontSize: 56, width: '50%', textAlign: 'right'}}
             />
-            <Text style={{ color: '#252525', fontSize: '3.5em' }}>$</Text>
+            <Text style={{ color: '#252525', fontSize: 56 }}>$</Text>
           </View>
           <View style={{ marginTop: 24, flexDirection: 'row', gap: 8 }}>
             <View>
               <Text style={{ color: '#7E7E7E' }}>You'll get</Text>
-              <Text style={{ color: '#7E7E7E', fontWeight: 'bold', marginLeft: '.3em' }}>0.000029 BTC</Text>
+              <Text style={{ color: '#7E7E7E', fontWeight: 'bold', marginLeft: 4.8 }}>0.000029 BTC</Text>
             </View>
             {/* Your SVG component goes here */}
           </View>
@@ -321,7 +321,7 @@ class TradePage extends Component {
             background: 'linear-gradient(96deg, #1B4D30 45.28%, #328454 89.42%)',
             fontWeight: 'bold',
             cursor: 'pointer',
-            fontSize: '1em',
+            fontSize: 16,
           }}
         >
           Confirm order

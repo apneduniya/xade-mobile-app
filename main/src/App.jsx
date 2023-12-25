@@ -832,7 +832,7 @@ export default function App({navigation}) {
         <Stack.Screen
           name="TradePage"
           component={TradePageScreen}
-          navigation={navigation}
+//           navigation={navigation}
           options={{headerShown: false}}
         />
         <Stack.Screen
