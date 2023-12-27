@@ -72,8 +72,6 @@ const Trade = ({ navigation }) => {
             <View
                 style={{
                     top: '3%',
-                    left: '5%',
-                    width: width * 0.9,
                 }}
             >
                 <View
@@ -82,6 +80,8 @@ const Trade = ({ navigation }) => {
                         alignItems: 'center',
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
+                        paddingLeft: '5%',
+                        width: width * 0.9,
                     }} >
                     <Icon
                         name={'keyboard-backspace'}
@@ -96,73 +96,79 @@ const Trade = ({ navigation }) => {
                     </Text>
 
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 4, marginVertical: 24, marginHorizontal: "4%" }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 4, marginTop: 24, paddingBottom: -8, paddingHorizontal: "4%", borderBottomWidth: 2, borderBottomColor: "#1C1C1C", paddingHorizontal: -16 }}>
                     <TouchableOpacity
                         style={{
                             borderBottomWidth: section === 'crypto' ? 2 : 0,
-                            borderBottomColor: '#ffffff',
-                            paddingBottom: 10,
+                            borderBottomColor: section === 'crypto' ? '#ffffff' : '#1C1C1C',
+                            paddingBottom: 16,
+                            paddingHorizontal: 16,
+                            marginBottom: section === 'crypto' ? -2 : 0,
                         }}
                         onPress={() => setSection('crypto')}
                     >
                         <Text style={{
-                            fontSize: 16,
-                            color: '#ffffff',
                             fontFamily: `Sarala-Bold`,
+                            fontSize: 14,
+                            color: section === 'crypto' ? '#ffffff' : '#717171',
                             fontWeight: 500,
                         }}>
-                            Crypto
+                            CRYPTO
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
                             borderBottomWidth: section === 'stocks' ? 2 : 0,
-                            borderBottomColor: '#ffffff',
-                            paddingBottom: 10,
+                            borderBottomColor: section === 'stocks' ? '#ffffff' : '#1C1C1C',
+                            paddingBottom: 16,
+                            marginBottom: section === 'stocks' ? -2 : 0,
                         }}
                         onPress={() => setSection('stocks')}
                     >
                         <Text style={{
-                            fontSize: 16,
-                            color: '#ffffff',
-                            fontFamily: `Sarala-Regular`,
+                            fontFamily: 'Sarala-Bold',
+                            fontSize: 14,
+                            color: section === 'stocks' ? '#ffffff' : '#717171',
                             fontWeight: 500,
                         }}>
-                            Stocks
+                            STOCKS
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
                             borderBottomWidth: section === 'commodities' ? 2 : 0,
-                            borderBottomColor: '#ffffff',
-                            paddingBottom: 10,
+                            borderBottomColor: section === 'commodities' ? '#ffffff' : '#1C1C1C',
+                            paddingBottom: 16,
+                            marginBottom: section === 'commodities' ? -2 : 0,
                         }}
                         onPress={() => setSection('commodities')}
                     >
                         <Text style={{
-                            fontSize: 16,
-                            color: '#ffffff',
-                            fontFamily: `Sarala-Regular`,
+                            fontFamily: 'Sarala-Bold',
+                            fontSize: 14,
+                            color: section === 'commodities' ? '#ffffff' : '#717171',
                             fontWeight: 500,
                         }}>
-                            Commodities
+                            COMMODITIES
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
                             borderBottomWidth: section === 'forex' ? 2 : 0,
-                            borderBottomColor: '#ffffff',
-                            paddingBottom: 10,
+                            borderBottomColor: section === 'forex' ? '#ffffff' : '#1C1C1C',
+                            paddingBottom: 16,
+                            paddingHorizontal: 16,
+                            marginBottom: section === 'forex' ? -2 : 0,
                         }}
                         onPress={() => setSection('forex')}
                     >
                         <Text style={{
-                            fontSize: 16,
-                            color: '#ffffff',
-                            fontFamily: `Sarala-Regular`,
+                            fontFamily: 'Sarala-Bold',
+                            fontSize: 14,
+                            color: section === 'forex' ? '#ffffff' : '#717171',
                             fontWeight: 500,
                         }}>
-                            Forex
+                            FOREX
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -205,7 +211,7 @@ const Trade = ({ navigation }) => {
                         <Image source={ImageAssets.commingSoonImg} style={{ height: 200, width: 200 }} />
                     </View>
                     <View style={{ marginBottom: 50, alignItems: 'flex-start', gap: 10 }}>
-                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#D1D2D9', textAlign: 'justify' }}>
+                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#D1D2D9', textAlign: 'justify', fontFamily: 'Sarala-Regular' }}>
                             Coming Soon
                         </Text>
                     </View>

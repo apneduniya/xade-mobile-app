@@ -963,7 +963,7 @@ const MarketChart = (props) => {
                   navigation.navigate('TradePage');
                   //                             <TradePage navigation={props.navigation} />
                 }}>
-                <LinearGradient useAngle={true} angle={150} colors={['#5038E1', '#B961FF']} style={{ width: "100%", borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+                <LinearGradient useAngle={true} angle={150} colors={['#5038E1', '#B961FF']} style={{ width: "100%", borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ color: '#fff', fontSize: 14, fontFamily: 'Sarala-Bold', fontWeight: "bold" }}>
                     Trade
                   </Text>

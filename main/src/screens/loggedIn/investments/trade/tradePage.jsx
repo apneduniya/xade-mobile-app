@@ -1,334 +1,559 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 
-class TradePage extends Component {
-  constructor(props) {
-    super(props);
+// Import your images (replace with actual paths)
+// import algo from './assets/algo.png';
+// import leverage from './assets/leverage.png';
+// import limit from './assets/limit.png';
+// import stop from './assets/stop.png';
+import { ImageAssets } from '../../../../../assets';
+import { Icon } from 'react-native-elements';
+import LinearGradient from 'react-native-linear-gradient';
 
-    this.state = {
-      tradeType: 'buy',
-      orderType: 'market',
-      isDropDownOpen: false,
-      selectedDropDownValue: 'Spot',
-      isModalOpen: false,
-      value: 1,
-      changeSlippage: false,
-    };
-  }
 
-  render() {
-    const {
-      tradeType,
-      orderType,
-      isDropDownOpen,
-      selectedDropDownValue,
-      isModalOpen,
-      value,
-      changeSlippage,
-    } = this.state;
+const TradePage = ({ navigation }) => {
+  const [tradeType, setTradeType] = useState("buy");
+  const [orderType, setOrderType] = useState("market");
+  const [selectedDropDownValue, setSelectedDropDownValue] = useState("Spot");
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [value, setValue] = useState("1");
+  const [convertedValue, setConvertedValue] = useState("token");
+  const [commingSoon, setCommingSoon] = useState(false);
+  const [changeSlipage, setChangeSlipage] = useState(false);
+  const [slipageValue, setSlipageValue] = useState("1");
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
 
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#0E0E0E',
-          padding: 14,
-          paddingTop: 34,
-          color: 'white',
-          fontFamily: 'sans-serif',
-          flexDirection: 'column',
-          gap: 24,
-        }}
-      >
-        {/* Top bar */}
-        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
-            {/* Your SVG component goes here */}
-            <Text style={{ fontSize: 16.8, fontWeight: 'bold' }}>Trade</Text>
+
+  useEffect(() => {
+    if (selectedDropDownValue === "Margin" || selectedDropDownValue === "Algo" || orderType === "limit" || orderType === "stop") {
+      setCommingSoon(true);
+    } else {
+      setCommingSoon(false);
+    }
+  }, [selectedDropDownValue, orderType]);
+
+  return (
+    <SafeAreaView
+      style={{
+        width: width,
+        height: height,
+        alignSelf: 'flex-start',
+        backgroundColor: '#000',
+        paddingBottom: 80
+        // backgroundColor: 'red'
+      }}>
+      {/* Top bar */}
+      <View style={{ flexDirection: "row", justifyContent: "space-between", top: "3%", width: width, marginBottom: 24 }}>
+        <View
+          style={{
+            // position: 'absolute',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingLeft: '5%',
+            width: width * 0.9,
+          }} >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icon
+              name={'keyboard-backspace'}
+              size={30}
+              color={'#f0f0f0'}
+              type="materialicons"
+              onPress={() => navigation.goBack()}
+            />
+
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#ffffff',
+                fontFamily: `Sarala-Bold`,
+                fontWeight: 500,
+                marginLeft: 30
+              }}>
+              Trade
+            </Text>
           </View>
           <TouchableOpacity
-            style={{ position: 'relative' }}
-            onPress={() => this.setState({ isDropDownOpen: !isDropDownOpen })}
+          // onPress={() => setIsDropDownOpen(!isDropDownOpen)}
           >
-            <View
-              style={{
-                background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
-                padding: '7px 14px',
-                flexDirection: 'row',
-                gap: '5px',
-                alignItems: 'center',
-                cursor: 'pointer',
-                borderRadius: '1000px',
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{selectedDropDownValue}</Text>
-              {/* Your SVG component goes here */}
-            </View>
-            {isDropDownOpen && (
-              <View
+            <View>
+              <LinearGradient
+                colors={['#5038e1', '#b961ff']}
+                useAngle={true}
+                angle={103.64}
                 style={{
-                  position: 'absolute',
-                  top: '100%',
-                  right: 0,
-                  width: 'max-content',
-                  background: '#151515',
-                  borderRadius: '10px',
-                  padding: '10px 0',
-                  flexDirection: 'column',
-                  gap: '14px',
-                  zIndex: 1000,
+                  paddingVertical: 8,
+                  paddingHorizontal: 22,
+                  borderRadius: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center"
                 }}
               >
-                <TouchableOpacity onPress={() => this.setState({ selectedDropDownValue: 'Spot' })}>
-                  <Text style={{ color: '#848484', fontWeight: 'bold' }}>Spot</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.setState({ selectedDropDownValue: 'Margin' })}>
-                  <Text style={{ color: '#848484', fontWeight: 'bold' }}>Margin</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.setState({ selectedDropDownValue: 'Algo' })}>
-                  <Text style={{ color: '#848484', fontWeight: 'bold' }}>Algo</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>{selectedDropDownValue}</Text>
+              </LinearGradient>
+              {/* <Image source={require('./path-to-your-arrow-image.png')} style={{ width: 24, height: 24 }} /> */}
+            </View>
+            {/* Drop-down options go here */}
           </TouchableOpacity>
         </View>
-        {/* Buy/Sell */}
-        <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            height: 44,
-            borderRadius: '100px',
-            backgroundColor: '#151515',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: 4,
-          }}
-        >
-          <Text
-            style={
-              tradeType === 'buy'
-                ? {
-                    padding: '12px 70px',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(94deg, #183E27 -3.78%, #1D5433 112.05%)',
-                    borderRadius: '100px',
-                    color: '#ACFF8E',
-                    fontSize: 16,
-                    cursor: 'pointer',
-                  }
-                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 70px', cursor: 'pointer' }
-            }
-            onPress={() => this.setState({ tradeType: 'buy' })}
-          >
-            Buy
-          </Text>
-          <Text
-            style={
-              tradeType === 'sell'
-                ? {
-                    padding: '12px 70px',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(94deg, #183E27 -3.78%, #1D5433 112.05%)',
-                    borderRadius: '100px',
-                    color: '#ACFF8E',
-                    fontSize: 16,
-                    cursor: 'pointer',
-                  }
-                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 70px', cursor: 'pointer' }
-            }
-            onPress={() => this.setState({ tradeType: 'sell' })}
-          >
-            Sell
-          </Text>
-        </View>
-        {/* Market, Limit, Stop */}
-        <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            height: 44,
-            borderRadius: '100px',
-            backgroundColor: '#151515',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: 4,
-          }}
-        >
-          <Text
-            style={
-              orderType === 'market'
-                ? {
-                    padding: '12px 30px',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
-                    borderRadius: '100px',
-                    color: '#FFFFFF',
-                    fontSize: 16,
-                    cursor: 'pointer',
-                  }
-                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
-            }
-            onPress={() => this.setState({ orderType: 'market' })}
-          >
-            Market
-          </Text>
-          <Text
-            style={
-              orderType === 'limit'
-                ? {
-                    padding: '12px 30px',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
-                    borderRadius: '100px',
-                    color: '#FFFFFF',
-                    fontSize: 16,
-                    cursor: 'pointer',
-                  }
-                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
-            }
-            onPress={() => this.setState({ orderType: 'limit' })}
-          >
-            Limit
-          </Text>
-          <Text
-            style={
-              orderType === 'stop'
-                ? {
-                    padding: '12px 30px',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(104deg, #5038E1 53.81%, #B961FF 113.49%)',
-                    borderRadius: '100px',
-                    color: '#FFFFFF',
-                    fontSize: 16,
-                    cursor: 'pointer',
-                  }
-                : { color: '#848484', fontWeight: 'bold', fontSize: 16, padding: '12px 30px', cursor: 'pointer' }
-            }
-            onPress={() => this.setState({ orderType: 'stop' })}
-          >
-            Stop
-          </Text>
-        </View>
-        {/* How much? */}
-        <View style={{ marginTop: 45, flexDirection: 'column', alignItems: 'center' }}>
-          <Text style={{ color: '#7E7E7E', fontSize: 16 }}>How much would you like to invest?</Text>
-          <View style={{ marginTop: 48, flexDirection: 'row', gap: 10, alignItems: 'center', width: '100%' }}>
-            <TextInput
-              keyboardType="numeric"
-              value={value.toString()}
-              onChangeText={(text) => this.setState({ value: text })}
-              style={{ backgroundColor: 'transparent', color: '#ffffff', fontSize: 56, width: '50%', textAlign: 'right'}}
-            />
-            <Text style={{ color: '#252525', fontSize: 56 }}>$</Text>
-          </View>
-          <View style={{ marginTop: 24, flexDirection: 'row', gap: 8 }}>
-            <View>
-              <Text style={{ color: '#7E7E7E' }}>You'll get</Text>
-              <Text style={{ color: '#7E7E7E', fontWeight: 'bold', marginLeft: 4.8 }}>0.000029 BTC</Text>
-            </View>
-            {/* Your SVG component goes here */}
-          </View>
-        </View>
-        {/* Order Summary */}
-        <View style={{ marginTop: 45, flexDirection: 'column', gap: 32 }}>
-          <TouchableOpacity onPress={() => this.setState({ isModalOpen: !isModalOpen })}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontWeight: 'bold' }}>Order summary</Text>
-              {/* Your SVG component goes here */}
-            </View>
-          </TouchableOpacity>
-          {isModalOpen && (
-            <>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', gap: '16px' }}>
-                  <View
-                    style={{
-                      padding: 8,
-                      backgroundColor: '#1E1E1E',
-                      height: 28,
-                      width: 28,
-                      borderRadius: '100%',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {/* Your SVG component goes here */}
-                  </View>
-                  <View style={{ flexDirection: 'column', gap: 4 }}>
-                    <Text style={{ color: '#7E7E7E' }}>Entry price</Text>
-                    <Text style={{ fontWeight: 'bold' }}>$34,909.12</Text>
-                  </View>
-                </View>
-                {/* Your SVG component goes here */}
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', gap: '16px' }}>
-                  <View
-                    style={{
-                      padding: 8,
-                      backgroundColor: '#1E1E1E',
-                      height: 28,
-                      width: 28,
-                      borderRadius: '100%',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {/* Your SVG component goes here */}
-                  </View>
-                  <View style={{ flexDirection: 'column', gap: 4 }}>
-                    <Text style={{ color: '#7E7E7E' }}>Slippage</Text>
-                    <Text style={{ fontWeight: 'bold' }}>1%</Text>
-                  </View>
-                </View>
-                <Text style={{ color: '#C397FF', cursor: 'pointer' }}>Change</Text>
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', gap: '16px' }}>
-                  <View
-                    style={{
-                      padding: 8,
-                      backgroundColor: '#1E1E1E',
-                      height: 28,
-                      width: 28,
-                      borderRadius: '100%',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {/* Your SVG component goes here */}
-                  </View>
-                  <View style={{ flexDirection: 'column', gap: 4 }}>
-                    <Text style={{ color: '#7E7E7E' }}>Estimated fee</Text>
-                    <Text style={{ fontWeight: 'bold' }}>$0.01</Text>
-                  </View>
-                </View>
-                {/* Your SVG component goes here */}
-              </View>
-            </>
-          )}
-        </View>
-        {/* Confirm Order Button */}
-        <TouchableOpacity
-          style={{
-            color: '#ACFF8E',
-            padding: 22,
-            width: '100%',
-            borderRadius: '100px',
-            border: 0,
-            background: 'linear-gradient(96deg, #1B4D30 45.28%, #328454 89.42%)',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            fontSize: 16,
-          }}
-        >
-          Confirm order
-        </TouchableOpacity>
       </View>
-    );
-  }
-}
+
+      {commingSoon ? (
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <Image
+            source={
+              selectedDropDownValue === "Margin" ?
+                ImageAssets.commingSoonImg :
+                selectedDropDownValue === "Algo" ?
+                  ImageAssets.commingSoonImg :
+                  orderType === "limit" ?
+                    ImageAssets.commingSoonImg :
+                    ImageAssets.commingSoonImg
+            }
+            style={{ width: 300, height: 300 }}
+          />
+          <Text style={{ fontSize: 22, fontWeight: "bold", textAlign: "center", fontFamily: "Benzin-Semibold" }}>Coming Soon</Text>
+        </View>
+      ) : (
+        <>
+          <ScrollView
+            scrollEnabled
+          >
+            {/* Buy/Sell */}
+            <View style={{ flexDirection: "row", borderRadius: 100, backgroundColor: "#151515", alignItems: "center", justifyContent: "space-between", margin: 8, padding: 6 }}>
+              <TouchableOpacity
+                style={{ width: "50%" }}
+                onPress={() => { setTradeType("buy"); setConvertedValue("token") }}
+              >
+                {
+                  tradeType === "buy" ?
+                    <LinearGradient
+                      colors={['#183e27', '#1d5433']}
+                      useAngle={true}
+                      angle={93.68}
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 22,
+                        borderRadius: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "bold", color: "#ACFF8E", fontSize: 16, fontFamily: "Benzin-Semibold", width: "40%", textAlign: "center" }}
+                      >
+                        Buy
+                      </Text>
+                    </LinearGradient>
+                    :
+                    <Text
+                      style={{ color: "#848484", fontWeight: "bold", fontSize: 16, textAlign: "center" }}
+                    >
+                      Buy
+                    </Text>
+                }
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ width: "50%" }}
+                onPress={() => setTradeType("sell")}
+              >
+                {
+                  tradeType === "sell" ?
+                    <LinearGradient
+                      colors={['#183e27', '#1d5433']}
+                      useAngle={true}
+                      angle={93.68}
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 22,
+                        borderRadius: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "bold", color: "#ACFF8E", fontSize: 16, fontFamily: "Benzin-Semibold", width: "40%", textAlign: "center" }}
+                      >
+                        Sell
+                      </Text>
+                    </LinearGradient>
+                    :
+                    <Text
+                      style={{ color: "#848484", fontWeight: "bold", fontSize: 16, textAlign: "center" }}
+                    >
+                      Sell
+                    </Text>
+                }
+              </TouchableOpacity>
+            </View>
+
+            {/* Market, Limit, Stop */}
+            <View style={{ flexDirection: "row", borderRadius: 100, backgroundColor: "#151515", alignItems: "center", justifyContent: "space-between", margin: 8, marginTop: 12, padding: 6 }}>
+              <TouchableOpacity
+                style={{ width: "30%" }}
+                onPress={() => setOrderType("market")}
+              >
+                {
+                  orderType === "market" ?
+                    <LinearGradient
+                      colors={['#5038e1', '#b961ff']}
+                      useAngle={true}
+                      angle={103.64}
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 22,
+                        borderRadius: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "bold", color: "#ffffff", fontSize: 16, fontFamily: "Benzin-Semibold", textAlign: "center" }}
+                      >
+                        Market
+                      </Text>
+                    </LinearGradient>
+                    :
+                    <Text
+                      style={{ color: "#848484", fontWeight: "bold", fontSize: 16, textAlign: "center" }}
+                    >
+                      Market
+                    </Text>
+                }
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ width: "30%" }}
+                onPress={() => setOrderType("limit")}
+              >
+                {
+                  orderType === "limit" ?
+                    <LinearGradient
+                      colors={['#5038e1', '#b961ff']}
+                      useAngle={true}
+                      angle={103.64}
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 22,
+                        borderRadius: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "bold", color: "#ffffff", fontSize: 16, fontFamily: "Benzin-Semibold", textAlign: "center" }}
+                      >
+                        Limit
+                      </Text>
+                    </LinearGradient>
+                    :
+                    <Text
+                      style={{ color: "#848484", fontWeight: "bold", fontSize: 16, textAlign: "center" }}
+                    >
+                      Limit
+                    </Text>
+                }
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ width: "30%" }}
+                onPress={() => setOrderType("stop")}
+              >
+                {
+                  orderType === "stop" ?
+                    <LinearGradient
+                      colors={['#5038e1', '#b961ff']}
+                      useAngle={true}
+                      angle={103.64}
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 22,
+                        borderRadius: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "bold", color: "#ffffff", fontSize: 16, fontFamily: "Benzin-Semibold", textAlign: "center" }}
+                      >
+                        Stop
+                      </Text>
+                    </LinearGradient>
+                    :
+                    <Text
+                      style={{ color: "#848484", fontWeight: "bold", fontSize: 16, textAlign: "center" }}
+                    >
+                      Stop
+                    </Text>
+                }
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ marginTop: 40 }}>
+              <Text style={{ fontSize: 16, color: "#7e7e7e", textAlign: "center" }}>How much would you like to invest?</Text>
+            </View>
+            <View style={{ marginTop: 30, flexDirection: "row", justifyContent: "center", gap: 8 }}>
+              <Text style={{ fontSize: 56, fontWeight: 900, color: "#ffffff", textAlign: "center" }}>1</Text>
+              <Text style={{ fontSize: 56, fontWeight: 900, color: "#252525", textAlign: "center" }}>$</Text>
+            </View>
+            <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontSize: 16, color: "#7e7e7e", textAlign: "center" }}>You'll get </Text>
+              <Text style={{ fontSize: 16, fontWeight: 900, color: "#7e7e7e", textAlign: "center" }}>0.000029 BTC  </Text>
+              <Image source={ImageAssets.arrowImg} />
+            </View>
+
+            <View
+              style={{
+                marginTop: 40,
+                margin: 8,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => setIsModalOpen(!isModalOpen)}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "700",
+                    fontFamily: "Satoshi",
+                    color: "#ffffff",
+                  }}
+                >
+                  Order summary
+                </Text>
+                <Icon
+                  name={'keyboard-arrow-down'}
+                  size={30}
+                  color={'#ffffff'}
+                  type="materialicons"
+                  style={{
+                    transform: [{ rotate: isModalOpen ? "180deg" : "0deg" }],
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {
+              isModalOpen && (
+                <View
+                  style={{
+                    margin: 8,
+                    marginTop: 10
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 34
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 24
+                      }}
+                    >
+                      <Image
+                        source={ImageAssets.dollarImg}
+                        style={{
+                          width: 40,
+                          height: 40,
+                        }}
+                      />
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: "Satoshi",
+                            color: "#7e7e7e",
+                          }}
+                        >
+                          Entry price
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "700",
+                            fontFamily: "Satoshi",
+                            color: "#fff",
+                          }}
+                        >
+                          $34,909.12
+                        </Text>
+                      </View>
+                    </View>
+                    <Image
+                      source={ImageAssets.infoImg}
+                      style={{
+                        width: 24,
+                        height: 24,
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 34
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 24
+                      }}
+                    >
+                      <Image
+                        source={ImageAssets.slippageImg}
+                        style={{
+                          width: 40,
+                          height: 40,
+                        }}
+                      />
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: "Satoshi",
+                            color: "#7e7e7e",
+                          }}
+                        >
+                          Slippage
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "700",
+                            fontFamily: "Satoshi",
+                            color: "#fff",
+                          }}
+                        >
+                          2%
+                        </Text>
+                      </View>
+                    </View>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "700",
+                        fontFamily: "Satoshi",
+                        color: "#c397ff",
+                      }}
+                    >
+                      Change
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 34
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 24
+                      }}
+                    >
+                      <Image
+                        source={ImageAssets.feeImg}
+                        style={{
+                          width: 40,
+                          height: 40,
+                        }}
+                      />
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: "Satoshi",
+                            color: "#7e7e7e",
+                          }}
+                        >
+                          Estimated fee
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "700",
+                            fontFamily: "Satoshi",
+                            color: "#fff",
+                          }}
+                        >
+                          $0.01
+                        </Text>
+                      </View>
+                    </View>
+                    <Image
+                      source={ImageAssets.infoImg}
+                      style={{
+                        width: 24,
+                        height: 24,
+                      }}
+                    />
+                  </View>
+                </View>
+              )
+            }
+
+            <View
+              style={{
+                marginTop: 20,
+                margin: 8,
+              }}
+            >
+              <LinearGradient
+                style={{
+                  borderRadius: 100,
+                  borderStyle: "solid",
+                  borderColor: "#65ffa3",
+                  borderWidth: 1,
+                  backgroundColor: "transparent",
+                  paddingVertical: 22,
+                  paddingHorizontal: 100
+                }}
+                locations={[0, 1]}
+                colors={["#1b4d30", "#328454"]}
+                useAngle={true}
+                angle={95.96}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    letterSpacing: 0.2,
+                    fontWeight: "700",
+                    fontFamily: "Satoshi",
+                    color: "#acff8e",
+                    textAlign: "center",
+                  }}
+                >
+                  Confirm order
+                </Text>
+              </LinearGradient>
+            </View>
+          </ScrollView>
+        </>
+      )}
+
+    </SafeAreaView>
+  );
+};
 
 export default TradePage;
