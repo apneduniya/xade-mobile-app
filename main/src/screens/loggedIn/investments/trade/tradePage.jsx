@@ -36,15 +36,16 @@ const TradePage = ({ navigation }) => {
   return (
     <SafeAreaView
       style={{
-        width: width,
-        height: height,
-        alignSelf: 'flex-start',
+        // width: width,
+        // height: height,
+        // alignSelf: 'flex-start',
         backgroundColor: '#000',
-        paddingBottom: 80
+        paddingBottom: 80,
+        flex: 1, // Add this line to make the SafeAreaView take up the full screen
         // backgroundColor: 'red'
       }}>
       {/* Top bar */}
-      <View style={{ flexDirection: "row", justifyContent: "space-between", top: "3%", width: width, marginBottom: 24 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "3%", width: width, marginBottom: 24 }}>
         <View
           style={{
             // position: 'absolute',
@@ -120,6 +121,7 @@ const TradePage = ({ navigation }) => {
         <>
           <ScrollView
             scrollEnabled
+            contentContainerStyle={{ flexGrow: 1 }} // Add this line to allow scrolling
           >
             {/* Buy/Sell */}
             <View style={{ flexDirection: "row", borderRadius: 100, backgroundColor: "#151515", alignItems: "center", justifyContent: "space-between", margin: 8, padding: 6 }}>
@@ -298,7 +300,12 @@ const TradePage = ({ navigation }) => {
               <Text style={{ fontSize: 16, color: "#7e7e7e", textAlign: "center" }}>How much would you like to invest?</Text>
             </View>
             <View style={{ marginTop: 30, flexDirection: "row", justifyContent: "center", gap: 8 }}>
-              <Text style={{ fontSize: 56, fontWeight: 900, color: "#ffffff", textAlign: "center" }}>1</Text>
+              <TextInput
+                style={{ fontSize: 56, fontWeight: 900, color: "#ffffff", textAlign: "center" }}
+                value={value}
+                onChangeText={(text) => setValue(text)}
+                keyboardType='numeric'
+              />
               <Text style={{ fontSize: 56, fontWeight: 900, color: "#252525", textAlign: "center" }}>$</Text>
             </View>
             <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
@@ -434,16 +441,36 @@ const TradePage = ({ navigation }) => {
                         >
                           Slippage
                         </Text>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "700",
-                            fontFamily: "Satoshi",
-                            color: "#fff",
-                          }}
-                        >
-                          2%
-                        </Text>
+                        {
+                          changeSlipage ?
+                            (
+                              <TextInput
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: "700",
+                                  fontFamily: "Satoshi",
+                                  color: "#fff",
+                                }}
+                                value={`${slipageValue} %`}
+                                onChangeText={(text) => setSlipageValue(text)}
+                                keyboardType='numeric'
+                              />
+                            )
+                            :
+                            (
+                              <Text
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: "700",
+                                  fontFamily: "Satoshi",
+                                  color: "#fff",
+                                }}
+                                
+                              >
+                                {changeSlipage}%
+                              </Text>
+                            )
+                        }
                       </View>
                     </View>
                     <Text
@@ -453,6 +480,7 @@ const TradePage = ({ navigation }) => {
                         fontFamily: "Satoshi",
                         color: "#c397ff",
                       }}
+                      onPress={() => setChangeSlipage(!changeSlipage)}
                     >
                       Change
                     </Text>
